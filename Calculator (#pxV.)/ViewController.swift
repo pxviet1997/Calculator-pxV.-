@@ -12,6 +12,14 @@ class ViewController: UIViewController {
         
     @IBOutlet weak var resultLabel: UILabel!
     
+    var operators = ""
+    var operand1 = 0.0
+    var operand2 = 0.0
+    
+    var operandDone = false
+    
+    var result = 0.0
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         // Do any additional setup after loading the view.
@@ -25,15 +33,73 @@ class ViewController: UIViewController {
         if resultLabel.text! == "0" {
             resultLabel.text! = ""
         }
+        if operandDone {
+            resultLabel.text! = ""
+            operandDone = false
+        }
         resultLabel.text! += sender.titleLabel!.text!
     }
     
     
     @IBAction func operatorButtonPressed(_ sender: UIButton) {
         
+        if sender.titleLabel!.text == "+" {
+            operators = "+"
+            operand1 = Double(resultLabel.text!)!
+            operandDone = true
+        }
+        else if sender.titleLabel!.text == "-" {
+            operators = "-"
+        }
+        else if sender.titleLabel!.text == "X" {
+            operators = "X"
+        }
+        else if sender.titleLabel!.text == "/" {
+            operators = "/"
+        }
+        
     }
     
     @IBAction func resultButtonPressed(_ sender: UIButton) {
+        calculation()
+        
+        var resultString = String(result)
+        if resultString.contains(".") {
+            let index = resultString.firstIndex(of: ".")
+            if resultString.substring(from: index!) == nil {
+                resultString = resultString.substring(to: index!)
+            }
+        }
+        
+        resultLabel.text = resultString
+    }
+    
+    @IBAction func dotButtonPressed(_ sender: UIButton) {
+        if resultLabel.text! == "0" {
+            resultLabel.text! = "0."
+        }
+        resultLabel.text! += sender.titleLabel!.text!
+        
+    }
+    
+    
+    func calculation() {
+        operand2 = Double(resultLabel.text!)!
+        operandDone = true
+        
+        if operators == "+" {
+            result = operand1 + operand2
+        }
+        else if operators == "-" {
+            result = operand1 - operand2
+        }
+        else if operators == "X" {
+            result = operand1 * operand2
+        }
+        else if operators == "/" {
+            result = operand1 / operand2
+        }
+        
     }
     
     
