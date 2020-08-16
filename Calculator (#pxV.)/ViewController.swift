@@ -27,6 +27,13 @@ class ViewController: UIViewController {
     
     @IBAction func resetButtonPressed(_ sender: UIButton) {
         resultLabel.text! = "0"
+        operators = ""
+        operand1 = 0.0
+        operand2 = 0.0
+        
+        operandDone = false
+        
+        result = 0.0
     }
     
     @IBAction func numberButtonPressed(_ sender: UIButton) {
@@ -38,6 +45,7 @@ class ViewController: UIViewController {
             operandDone = false
         }
         resultLabel.text! += sender.titleLabel!.text!
+        result = Double(resultLabel.text!)!
     }
     
     
@@ -50,12 +58,18 @@ class ViewController: UIViewController {
         }
         else if sender.titleLabel!.text == "-" {
             operators = "-"
+            operand1 = Double(resultLabel.text!)!
+            operandDone = true
         }
         else if sender.titleLabel!.text == "X" {
             operators = "X"
+            operand1 = Double(resultLabel.text!)!
+            operandDone = true
         }
         else if sender.titleLabel!.text == "/" {
             operators = "/"
+            operand1 = Double(resultLabel.text!)!
+            operandDone = true
         }
         
     }
@@ -75,9 +89,7 @@ class ViewController: UIViewController {
     }
     
     @IBAction func dotButtonPressed(_ sender: UIButton) {
-        if resultLabel.text! == "0" {
-            resultLabel.text! = "0."
-        }
+        
         resultLabel.text! += sender.titleLabel!.text!
         
     }
