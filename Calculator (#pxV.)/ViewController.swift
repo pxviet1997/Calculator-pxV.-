@@ -15,8 +15,8 @@ class ViewController: UIViewController {
     var operators = ""
     var operand1 = 0.0
     var operand2 = 0.0
-    var temp = 0
     
+    var newOperand = false
     var operandDone = false
     
     var result = 0.0
@@ -26,15 +26,20 @@ class ViewController: UIViewController {
         // Do any additional setup after loading the view.
     }
     
+    @IBAction func signButtonPressed(_ sender: UIButton) {
+        if resultLabel.text! == "0" {
+            resultLabel.text! = ""
+        }
+        resultLabel.text! = "-" + resultLabel.text!
+    }
+    
     @IBAction func resetButtonPressed(_ sender: UIButton) {
         resultLabel.text! = "0"
         operators = ""
         operand1 = 0.0
         operand2 = 0.0
-        temp = 0
-        
+        newOperand = false
         operandDone = false
-        
         result = 0.0
     }
     
@@ -42,42 +47,22 @@ class ViewController: UIViewController {
         if resultLabel.text! == "0" {
             resultLabel.text! = ""
         }
-        else if operandDone {
+        if operandDone {
             resultLabel.text! = ""
             operandDone = false
         }
         resultLabel.text! += sender.titleLabel!.text!
         result = Double(resultLabel.text!)!
-        temp += 1
-        print("temp = " + String(temp))
+        newOperand = true
     }
     
-    
     @IBAction func operatorButtonPressed(_ sender: UIButton) {
-        
-        
-        operatorType(sender.titleLabel!.text!)
-//        if sender.titleLabel!.text == "+" {
-//            operators = "+"
-//            operand1 = Double(resultLabel.text!)!
-//            operandDone = true
-//        }
-//        else if sender.titleLabel!.text == "-" {
-//            operators = "-"
-//            operand1 = Double(resultLabel.text!)!
-//            operandDone = true
-//        }
-//        else if sender.titleLabel!.text == "X" {
-//            operators = "X"
-//            operand1 = Double(resultLabel.text!)!
-//            operandDone = true
-//        }
-//        else if sender.titleLabel!.text == "/" {
-//            operators = "/"
-//            operand1 = Double(resultLabel.text!)!
-//            operandDone = true
-//        }
-        
+        if sender.titleLabel!.text! == "-" && operandDone == false {
+            resultLabel.text! = sender.titleLabel!.text!
+        }
+        else {
+            operatorType(sender.titleLabel!.text!)
+        }
     }
     
     func operatorType(_ type: String) {
@@ -87,36 +72,13 @@ class ViewController: UIViewController {
     }
     
     @IBAction func resultButtonPressed(_ sender: UIButton) {
-        calculation()
-        operandDone = true
-        
-        resultLabel.text = String(result)
-    }
-    
-    @IBAction func dotButtonPressed(_ sender: UIButton) {
-        
-        resultLabel.text! += sender.titleLabel!.text!
-        
-    }
-    
-    
-    func calculation() {
-        if temp != 0  {
+        if newOperand {
             operand2 = Double(resultLabel.text!)!
-            temp = 0
+            newOperand = false
         }
         else {
             operand1 = result
         }
-        
-//        if temp == 0 {
-//            operand1 = result
-//        }
-//        else {
-//            temp = 0
-//        }
-        
-        operandDone = true
         
         if operators == "+" {
             result = operand1 + operand2
@@ -130,19 +92,30 @@ class ViewController: UIViewController {
         else if operators == "/" {
             result = operand1 / operand2
         }
-        
-        print("operators = " + String(operators))
-        print("operand1 = " + String(operand1))
-        print("operand2 = " + String(operand2))
-        print("temp = " + String(temp))
-        print("result = " + String(result))
-        print()
 
+        operandDone = true
+        
+        resultLabel.text = String(result)
+    }
+    
+    @IBAction func percentageButtonPressed(_ sender: UIButton) {
+        resultLabel.text = String(Double(resultLabel.text!)! / 100)
+    }
+    
+    
+    @IBAction func dotButtonPressed(_ sender: UIButton) {
+        resultLabel.text! += sender.titleLabel!.text!
     }
     
     
     
     
     
+}
+
+extension String {
+    var isInt: Bool {
+        return Int(self) != nil
+    }
 }
 
