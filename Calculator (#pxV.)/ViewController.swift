@@ -15,7 +15,7 @@ class ViewController: UIViewController {
     var operators = ""
     var operand1 = 0.0
     var operand2 = 0.0
-    var tempOperand = 0.0
+    var temp = 0
     
     var operandDone = false
     
@@ -31,6 +31,7 @@ class ViewController: UIViewController {
         operators = ""
         operand1 = 0.0
         operand2 = 0.0
+        temp = 0
         
         operandDone = false
         
@@ -47,6 +48,8 @@ class ViewController: UIViewController {
         }
         resultLabel.text! += sender.titleLabel!.text!
         result = Double(resultLabel.text!)!
+        temp += 1
+        print("temp = " + String(temp))
     }
     
     
@@ -85,6 +88,7 @@ class ViewController: UIViewController {
     
     @IBAction func resultButtonPressed(_ sender: UIButton) {
         calculation()
+        operandDone = true
         
         resultLabel.text = String(result)
     }
@@ -97,13 +101,22 @@ class ViewController: UIViewController {
     
     
     func calculation() {
-        operand2 = Double(resultLabel.text!)!
+        if temp != 0  {
+            operand2 = Double(resultLabel.text!)!
+            temp = 0
+        }
+        else {
+            operand1 = result
+        }
+        
+//        if temp == 0 {
+//            operand1 = result
+//        }
+//        else {
+//            temp = 0
+//        }
+        
         operandDone = true
-        
-        print("operators = " + String(operators))
-        print("operand1 = " + String(operand1))
-        print("operand2 = " + String(operand2))
-        
         
         if operators == "+" {
             result = operand1 + operand2
@@ -118,6 +131,10 @@ class ViewController: UIViewController {
             result = operand1 / operand2
         }
         
+        print("operators = " + String(operators))
+        print("operand1 = " + String(operand1))
+        print("operand2 = " + String(operand2))
+        print("temp = " + String(temp))
         print("result = " + String(result))
         print()
 
