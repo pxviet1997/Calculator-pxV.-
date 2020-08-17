@@ -18,6 +18,7 @@ class ViewController: UIViewController {
     
     var newOperand = false
     var operandDone = false
+    var dotPressed = false
     
     var result = 0.0
     
@@ -38,6 +39,7 @@ class ViewController: UIViewController {
         operand2 = 0.0
         newOperand = false
         operandDone = false
+        dotPressed = false
         result = 0.0
     }
     
@@ -52,7 +54,7 @@ class ViewController: UIViewController {
         }
         
         resultLabel.text! += sender.titleLabel!.text!
-        result = Double(resultLabel.text!)!
+//        result = Double(resultLabel.text!)!
         newOperand = true
     }
     private func checkForZero() {
@@ -69,6 +71,7 @@ class ViewController: UIViewController {
         operators = type
         operand1 = Double(resultLabel.text!)!
         operandDone = true
+        dotPressed = false
     }
     
     @IBAction func resultButtonPressed(_ sender: UIButton) {
@@ -81,21 +84,22 @@ class ViewController: UIViewController {
         }
         
         if operators == "+" {
-            result = operand1 + operand2
+            result = ((operand1 + operand2) * 100) / 100
         }
         else if operators == "-" {
-            result = operand1 - operand2
+            result = ((operand1 - operand2) * 100) / 100
         }
         else if operators == "X" {
-            result = operand1 * operand2
+            result = ((operand1 * operand2) * 100) / 100
         }
         else if operators == "/" {
-            result = operand1 / operand2
+            result = ((operand1 / operand2) * 100) / 100
         }
 
         operandDone = true
         
         resultLabel.text = String(result)
+        
     }
     
     @IBAction func percentageButtonPressed(_ sender: UIButton) {
@@ -104,7 +108,10 @@ class ViewController: UIViewController {
     
     
     @IBAction func dotButtonPressed(_ sender: UIButton) {
-        resultLabel.text! += sender.titleLabel!.text!
+        if !dotPressed {
+            resultLabel.text! += sender.titleLabel!.text!
+            dotPressed = true
+        }
     }
     
 }
