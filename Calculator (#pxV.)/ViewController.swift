@@ -27,10 +27,8 @@ class ViewController: UIViewController {
     }
     
     @IBAction func signButtonPressed(_ sender: UIButton) {
-        if resultLabel.text! == "0" {
-            resultLabel.text! = ""
-        }
-        resultLabel.text! = "-" + resultLabel.text!
+        checkForZero()
+        resultLabel.text! = "-"
     }
     
     @IBAction func resetButtonPressed(_ sender: UIButton) {
@@ -44,28 +42,30 @@ class ViewController: UIViewController {
     }
     
     @IBAction func numberButtonPressed(_ sender: UIButton) {
-        if resultLabel.text! == "0" {
-            resultLabel.text! = ""
-        }
+        checkForZero()
+        
         if operandDone {
-            resultLabel.text! = ""
+            if resultLabel.text! != "-" {
+                resultLabel.text! = ""
+            }
             operandDone = false
         }
+        
         resultLabel.text! += sender.titleLabel!.text!
         result = Double(resultLabel.text!)!
         newOperand = true
     }
-    
-    @IBAction func operatorButtonPressed(_ sender: UIButton) {
-        if sender.titleLabel!.text! == "-" && operandDone == false {
-            resultLabel.text! = sender.titleLabel!.text!
-        }
-        else {
-            operatorType(sender.titleLabel!.text!)
+    private func checkForZero() {
+        if resultLabel.text! == "0" {
+            resultLabel.text! = ""
         }
     }
     
-    func operatorType(_ type: String) {
+    @IBAction func operatorButtonPressed(_ sender: UIButton) {
+        operatorType(sender.titleLabel!.text!)
+    }
+    
+    private func operatorType(_ type: String) {
         operators = type
         operand1 = Double(resultLabel.text!)!
         operandDone = true
@@ -107,15 +107,4 @@ class ViewController: UIViewController {
         resultLabel.text! += sender.titleLabel!.text!
     }
     
-    
-    
-    
-    
 }
-
-extension String {
-    var isInt: Bool {
-        return Int(self) != nil
-    }
-}
-
