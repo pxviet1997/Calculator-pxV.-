@@ -15,6 +15,7 @@ class ViewController: UIViewController {
     var operators = ""
     var operand1 = 0.0
     var operand2 = 0.0
+    var tempOperand = 0.0
     
     var operandDone = false
     
@@ -40,7 +41,7 @@ class ViewController: UIViewController {
         if resultLabel.text! == "0" {
             resultLabel.text! = ""
         }
-        if operandDone {
+        else if operandDone {
             resultLabel.text! = ""
             operandDone = false
         }
@@ -51,41 +52,41 @@ class ViewController: UIViewController {
     
     @IBAction func operatorButtonPressed(_ sender: UIButton) {
         
-        if sender.titleLabel!.text == "+" {
-            operators = "+"
-            operand1 = Double(resultLabel.text!)!
-            operandDone = true
-        }
-        else if sender.titleLabel!.text == "-" {
-            operators = "-"
-            operand1 = Double(resultLabel.text!)!
-            operandDone = true
-        }
-        else if sender.titleLabel!.text == "X" {
-            operators = "X"
-            operand1 = Double(resultLabel.text!)!
-            operandDone = true
-        }
-        else if sender.titleLabel!.text == "/" {
-            operators = "/"
-            operand1 = Double(resultLabel.text!)!
-            operandDone = true
-        }
         
+        operatorType(sender.titleLabel!.text!)
+//        if sender.titleLabel!.text == "+" {
+//            operators = "+"
+//            operand1 = Double(resultLabel.text!)!
+//            operandDone = true
+//        }
+//        else if sender.titleLabel!.text == "-" {
+//            operators = "-"
+//            operand1 = Double(resultLabel.text!)!
+//            operandDone = true
+//        }
+//        else if sender.titleLabel!.text == "X" {
+//            operators = "X"
+//            operand1 = Double(resultLabel.text!)!
+//            operandDone = true
+//        }
+//        else if sender.titleLabel!.text == "/" {
+//            operators = "/"
+//            operand1 = Double(resultLabel.text!)!
+//            operandDone = true
+//        }
+        
+    }
+    
+    func operatorType(_ type: String) {
+        operators = type
+        operand1 = Double(resultLabel.text!)!
+        operandDone = true
     }
     
     @IBAction func resultButtonPressed(_ sender: UIButton) {
         calculation()
         
-        var resultString = String(result)
-        if resultString.contains(".") {
-            let index = resultString.firstIndex(of: ".")
-            if resultString.substring(from: index!) == nil {
-                resultString = resultString.substring(to: index!)
-            }
-        }
-        
-        resultLabel.text = resultString
+        resultLabel.text = String(result)
     }
     
     @IBAction func dotButtonPressed(_ sender: UIButton) {
@@ -98,6 +99,11 @@ class ViewController: UIViewController {
     func calculation() {
         operand2 = Double(resultLabel.text!)!
         operandDone = true
+        
+        print("operators = " + String(operators))
+        print("operand1 = " + String(operand1))
+        print("operand2 = " + String(operand2))
+        
         
         if operators == "+" {
             result = operand1 + operand2
@@ -112,6 +118,9 @@ class ViewController: UIViewController {
             result = operand1 / operand2
         }
         
+        print("result = " + String(result))
+        print()
+
     }
     
     
